@@ -1,0 +1,195 @@
+/* html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+@mixin center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+ /*移除 body 的全局样式 */
+ /* body {
+  margin: 0;
+
+} */
+
+/* 将居中样式应用到 .container 或新的父容器 */
+/* .image-comparison-wrapper {
+  position: relative;
+  width: 10%;
+  max-width: 1200px;
+  height: 800px;
+  margin: auto;
+  display: block;
+  overflow: hidden;
+} */
+
+/* 新增图片样式，保证图片铺满容器且不变形 */
+.comparison-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* 背景和前景容器不再用 background-image */
+.background-img,
+.foreground-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* 前景宽度由JS控制 */
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.foreground-img {
+  width: 100%; /* 固定宽度 */
+  height: 100%;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/* slider只显示一条线，放在图片中间 */
+.slider {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  margin: 0;
+  z-index: 3;
+  pointer-events: auto;
+  /* 隐藏原生滑块，只显示自定义按钮 */
+}
+
+.slider::-webkit-slider-thumb {
+  opacity: 0;
+}
+.slider::-moz-range-thumb {
+  opacity: 0;
+}
+.slider::-ms-thumb {
+  opacity: 0;
+}
+.slider::-webkit-slider-runnable-track {
+  opacity: 0;
+}
+.slider::-moz-range-track {
+  opacity: 0;
+}
+.slider::-ms-fill-lower,
+.slider::-ms-fill-upper {
+  opacity: 0;
+}
+
+/* image-comparison主容器尺寸 */
+.image-comparison-wrapper {
+  position: relative;
+  width: 120%;
+  max-width: 1280px;
+  height: 640px;
+  margin: auto;
+  display: block;
+  overflow: hidden;
+}
+
+/* 分割线按钮尺寸 */
+.slider-button {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 25px); /* JS控制left，按钮宽度一半 */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3); /* 半透明白色 */
+  /* 移除边框 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 4;
+  transform: translateY(-50%);
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.slider-button::before,
+.slider-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  border: solid #313131;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  background: transparent;
+}
+
+.slider-button::before {
+  left: 10px; /* 按钮左侧 */
+  transform: translateY(-50%) rotate(135deg);
+}
+
+.slider-button::after {
+  right: 10px; /* 按钮右侧 */
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.slider-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.8));
+  z-index: 3; /* 比按钮低，按钮z-index:4 */
+  border-radius: 4px;
+  box-shadow: 0 4px 24px 4px rgba(0,0,0,0.25), 0 0 8px 2px rgba(0,0,0,0.10); /* 增强阴影效果 */
+  pointer-events: none;
+}
+
+/* 按钮组样式 */
+.cmp-button-group {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+/* 美化按钮样式 */
+.cmp-button {
+  padding: 12px 64px; /* 增加按钮的高度和宽度 */
+  margin: 0 12px; /* 增加按钮之间的间距 */
+  background-color: #eceef1; /* 按钮背景色 */
+  color: #0a0a0a; /* 按钮文字颜色 */
+  border: none; /* 移除边框 */
+  border-radius: 8px; /* 增加圆角 */
+  cursor: pointer;
+  font-size: 16px; /* 增大字体 */
+  font-weight: bold; /* 加粗文字 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 添加阴影 */
+  transition: background-color 0.3s, box-shadow 0.3s; /* 添加过渡效果 */
+}
+
+/* 鼠标悬停时的效果 */
+.cmp-button:hover {
+  background-color: #48494b; /* 悬停时的背景色 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 增强阴影效果 */
+}
+
+/* 选中状态的按钮样式 */
+.cmp-btn-checked {
+  background-color: #797979; /* 选中状态的背景色 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 增强阴影效果 */
+}
